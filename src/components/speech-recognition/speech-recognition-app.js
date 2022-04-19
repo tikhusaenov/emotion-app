@@ -10,30 +10,28 @@ const SpeechRecognitionApp = () => {
     const [results, setResults] = useState([])
     const camera = useRef()
     const cameraCanvas = useRef()
-    const clearOverlay = (canvas) => {
-        canvas.current.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
-    }
 
     const getFaces = async () => {
-        if (camera.current !== null) {
-            const faces = await detectFaces(camera.current.video)
-            await drawResults(camera.current.video, cameraCanvas.current, faces, 'boxLandmarks')
-            setResults(faces)
+        try {
+            if (camera.current !== null) {
+                const faces = await detectFaces(camera.current.video)
+                await drawResults(camera.current.video, cameraCanvas.current, faces, 'boxLandmarks')
+                setResults(faces)
+            }
+        } catch (err) {
+            return new Error(err)
         }
-    };
+    }
     useEffect(() => {
         if (camera !== null) {
             const ticking = setInterval(async () => {
                 await getFaces()
             }, 80)
             return () => {
-                clearOverlay(cameraCanvas)
                 clearInterval(ticking)
             }
-        } else {
-            return clearOverlay(cameraCanvas)
         }
-    }, [])
+    }, [camera.current, cameraCanvas.current])
 
     return (
         <AppContainer>

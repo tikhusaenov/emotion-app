@@ -12,7 +12,12 @@ import {
   faSurprise,
   faMale,
   faFemale,
-  faTimesCircle
+  faTimesCircle,
+  faPlay,
+  faPause,
+  faMicrophone,
+  faStop,
+  faVideoSlash,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const createFaLibrary = () => {
@@ -29,6 +34,11 @@ export const createFaLibrary = () => {
     faSurprise,
     faMale,
     faFemale,
-    faTimesCircle
+    faTimesCircle,
+    faPlay,
+    faPause,
+    faMicrophone,
+    faStop,
+    faVideoSlash
   );
 };

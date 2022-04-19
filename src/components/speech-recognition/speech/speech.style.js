@@ -1,22 +1,40 @@
 import styled from 'styled-components'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export const SpeechContainer = styled.div`
-  height: 80%;
-  border: ${({isListening}) => (isListening ? '1px solid green' : '1px solid red')};
-  padding: 40px;
-  background: #f1f1f1;
-  position: relative;
+export const SpeechRecognitionBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 15px;
+  width: 50%;
 `
 export const SpeechMenu = styled.div`
-    height: 20%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  height: 80px;
+  display: flex;
+  padding: 40px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `
+
+export const SpeechContainer = styled.div`
+    height: 80%;
+    border: ${({isListening}) => (isListening ? '1px solid green' : '1px solid red')};
+    padding: 40px;
+    background: #f1f1f1;
+    margin: 20px;
+    border-radius: 15px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+  box-shadow: 1px 5px 8px 0 rgba(34, 60, 80, 0.2);
+
+`
+
 export const NoteStyled = styled.div`
     font-size: 20px;
-    min-height: 200px;
+    height: 100%;
     color: black;
     font-weight: lighter;
 `
@@ -39,7 +57,20 @@ export const PlayButton = styled.button`
 `
 
 export const IconsContainer = styled.div`
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
+    display: flex;
+    justify-content: center;
+`
+
+export const PlayIconWrapper = styled.button`
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 30%;
+    background: #071c2f;
+    cursor: pointer;
+    &:hover {
+      background: black;
+    }
+`
+
+export const FontAwesomeIconStyled = styled(FontAwesomeIcon)`
 `
