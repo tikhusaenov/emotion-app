@@ -6,7 +6,7 @@ export const SpeechRecognitionBlock = styled.div`
   flex-direction: column;
   justify-content: center;
   border-radius: 15px;
-  width: 50%;
+  width: 100%;
 `
 export const SpeechMenu = styled.div`
   height: 80px;

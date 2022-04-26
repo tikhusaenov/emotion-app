@@ -1,15 +1,12 @@
-import {AppStyled} from "../speech-recognition-app.style"
 import React, {useCallback, useEffect, useState} from "react"
 import {
     FontAwesomeIconStyled,
     IconsContainer,
     NoteStyled,
-    PlayButton, PlayIconWrapper,
+    PlayIconWrapper,
     SpeechContainer,
     SpeechMenu, SpeechRecognitionBlock
-} from "./speech.style";
-import {ButtonWrapper} from "../../main-banner/main-banner.style";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+} from "./speech.style"
 
 const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition

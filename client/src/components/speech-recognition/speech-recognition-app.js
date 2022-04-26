@@ -5,6 +5,7 @@ import {AppContainer, Heading, SpeechRecognitionAppContainer} from "./speech-rec
 import Results from "./results/results";
 import {ResultsContainer} from "./camera/camera.style";
 import {detectFaces, drawResults} from "./helpers/faceApi";
+import DataTest from "./data-test/data-test";
 
 const SpeechRecognitionApp = () => {
     const [results, setResults] = useState([])
@@ -46,6 +47,7 @@ const SpeechRecognitionApp = () => {
             <ResultsContainer>
                 <Results results={results} />
             </ResultsContainer>
+            <DataTest />
         </AppContainer>
     )
 }

@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export const CameraWrapper = styled.div`
     position: fixed;
@@ -17,16 +16,6 @@ export const CameraContainer = styled.div`
     position: relative;
     
 `
-export const CameraIconButton = styled.button`
-    position: absolute;
-    margin: 95px;
-    cursor: pointer;
-    z-index: -1;
-`
-
-export const FontAwesomeIconStyledCamera = styled(FontAwesomeIcon)`
-    
-`
 
 export const CameraCanvasContainer = styled.div`
   position: relative;
@@ -37,7 +26,6 @@ export const CameraCanvasContainer = styled.div`
   border-radius: 50%;
   overflow: hidden;
   margin: 13px;
-  z-index: 1;
   
   video {
     height: 100%;
@@ -45,14 +33,9 @@ export const CameraCanvasContainer = styled.div`
     width: 100%;
     object-fit: cover;
     cursor: pointer;
-    z-index: 1000;
-    
-    &:hover {
-      opacity: 0.3;
-    }
   }
+  
 `
-
 
 export const ResultsContainer = styled.div`
   background-color: #fff;
