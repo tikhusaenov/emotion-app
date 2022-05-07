@@ -23,10 +23,14 @@ export const Container = styled.div`
 export const MainHeading = styled.h1`
   font-size: clamp(2.3rem, 6vw, 4.5rem);
   margin-bottom: 2rem;
+  z-index: 100;
   color: ${({ inverse }) => (inverse ? '$403ae3' : '#fff')};
   width: 100%;
   letter-spacing: 4px;
   text-align: center;
+  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: white;
 `
 
 export const Heading = styled.h2`
@@ -104,20 +108,22 @@ export const Column = styled.div`
 export const Button = styled.button`
   border-radius: 4px;
   background: none;
+  text-transform: uppercase;
   white-space: nowrap;
   padding: 12px 30px;
   font-size: 18px;
-  color: black;
+  letter-spacing: 1px;
+  color: white;
   outline: none;
   border: 2px solid #fff;
   cursor: pointer;
   overflow: hidden;
   position: relative;
-  background: white;
   transition: 0.3s;
-
+  
   &:hover {
-    background: #c5c5c5;
+    box-shadow: 0 0 0 2px;
+    font-weight: bolder;
   }
 `
 

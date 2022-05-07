@@ -1,9 +1,9 @@
 import React from 'react'
 import GlobalStyle from './component.style'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import MainPage from './pages/main-page'
-import Footer from './components/footer/footer'
-import MainApp from './pages/main-app'
+import MainPage from './pages/landing-page/main-page'
+import Footer from './pages/landing-page/footer/footer'
+import MainApp from './pages/speech-recognition/main-app'
 
 const Component = () => {
     return (
