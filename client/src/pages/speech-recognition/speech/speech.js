@@ -2,19 +2,30 @@ import React, {useEffect, useState} from "react"
 import {
     ButtonStyled,
     ChoiceHeading,
-    FontAwesomeIconStyled, FormStyled,
-    IconsContainer, InputStyled, LabelStyled,
+    FontAwesomeIconStyled,
+    FormContainer,
+    FormStyled,
+    IconsContainer,
+    InputStyled,
     NoteStyled,
     RecordHeading,
-    RecordIconWrapper, ResultStyled,
+    RecordIconWrapper,
+    ResultStyled,
     SpeechContainer,
-    SpeechMenu, SpeechRecognitionBlock, SpeechRecognizerStyled, StopIconWrapper, VariantsBlock
+    SpeechMenu,
+    SpeechRecognitionBlock,
+    SpeechRecognizerStyled,
+    StopIconWrapper, TagStyled, TextAndVoiceBlock,
+    TransPlaceHolder,
+    VariantsBlock,
 } from "./speech.style"
 import Recorder from "recorder-js/src"
 import axios from "axios"
 import Sentiment from 'sentiment'
-import VoiceAnalyzer from "./voice-analyzer"
 import ReactAudioPlayer from 'react-audio-player'
+import labels from '../../../labels/labels'
+import TextAnalyzer from "./text-analyzer"
+import {TextAnalyzerStyled} from "./voice-analyzer.style";
 
 const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition
@@ -23,24 +34,29 @@ const mic = new SpeechRecognition()
 
 mic.continuous = true
 mic.interimResults = true
-// mic.lang = 'ru-RU'
-mic.lang = 'en-US'
+mic.lang = 'ru-RU'
+// mic.lang = 'en-US'
 let recorder
 let audioContext
 
-const Speech = (props) => {
+const Speech = () => {
     const sentiment = new Sentiment()
     const [sentimentScore, setSentimentScore] = useState(null)
     const [note, setNote] = useState('')
+    const [saveTranscription, setSaveTranscription] = useState(false)
     const [isRecording, switchRecording] = useState(false)
     const [dataIsReceived, switchReceive] = useState(false)
-    const [loading, setLoading] = useState(false)
     const [result, setResult] = useState(null)
     const [formResult, setFormResult] = useState(null)
     const [uploadedFileName, setUploadedFileName] = useState(null)
     const [file, setFile] = useState('')
     const hiddenFileInput = React.useRef(null)
 
+    let ruLanguage = {
+        labels: labels
+    }
+
+    sentiment.registerLanguage('ru', ruLanguage)
 
     const handleClick = () => {
         hiddenFileInput.current.click()
@@ -56,11 +72,9 @@ const Speech = (props) => {
     const startRecord = () => {
         switchReceive(false)
         switchRecording(true)
+        setSaveTranscription(false)
         audioContext = new window.AudioContext()
-        recorder = new Recorder(audioContext, {onAnalysed: data => {
-                // here comes an array of sound attitude, may be visualized with canvas later
-                //console.log(data)
-            }})
+        recorder = new Recorder(audioContext)
         navigator.mediaDevices.getUserMedia({audio: true}).then(stream => {
             recorder.init(stream)
             recorder.start().then(() => {
@@ -72,18 +86,9 @@ const Speech = (props) => {
                 console.log('Cannot get stream: ', err))
     }
 
-    // const fetchData = async () => {
-    //     setLoading(true)
-    //     try {
-    //         const { data: response } = await axios.get('/results')
-    //         setResult(response)
-    //     } catch (error) {
-    //         console.error(error.message)
-    //     }
-    // }
-
     const stopRecord = () => {
         switchRecording(false)
+        setSaveTranscription(true)
         recorder.stop().then(({blob}) => {
             const fd = new FormData()
             const filename = 'result.wav'
@@ -93,7 +98,7 @@ const Speech = (props) => {
             }
             axios.post('/results', fd, config
             ).then(async res => {
-                // switchReceive(true)
+                console.log(res)
                 setResult(res.data)
             }).catch(err => {
                 if (err)
@@ -103,7 +108,7 @@ const Speech = (props) => {
     }
 
     useEffect(() => {
-        setSentimentScore(sentiment.analyze(note))
+        setSentimentScore(sentiment.analyze(note, { language: 'ru' }))
     }, [note])
 
     useEffect(() => {
@@ -125,7 +130,7 @@ const Speech = (props) => {
         mic.onstart = () => {
             console.log('Mics on')
         }
-        mic.onresult = event => {
+        mic.onresult = async (event) => {
             const transcript = Array.from(event.results)
                 .map(result => result[0])
                 .map(result => result.transcript)
@@ -175,7 +180,11 @@ const Speech = (props) => {
                 <SpeechRecognizerStyled>
                     <SpeechContainer isListening={isRecording}>
                         <NoteStyled>
-                            {note}
+                            {isRecording
+                                ?
+                                note
+                                : saveTranscription ? note :
+                                <TransPlaceHolder>Here will be your speech transcription...</TransPlaceHolder>}
                         </NoteStyled>
                         <IconsContainer>
                             {isRecording
@@ -186,30 +195,36 @@ const Speech = (props) => {
                             }
                         </IconsContainer>
                     </SpeechContainer>
-                    <VoiceAnalyzer sentimentScore={sentimentScore}/>
-                    { result }
+                    <TextAndVoiceBlock>
+                        <TextAnalyzer sentimentScore={sentimentScore}/>
+                        <TextAnalyzerStyled>
+                            Emotion from <TagStyled>voice</TagStyled> <TagStyled>"{ result ? result : '...' }"</TagStyled>
+                        </TextAnalyzerStyled>
+                    </TextAndVoiceBlock>
                 </SpeechRecognizerStyled>
                 <ChoiceHeading>OR</ChoiceHeading>
-                <FormStyled onSubmit={(e) => handleForm(e)} method="POST"
-                            encType="multipart/form-data">
-                    <ButtonStyled onClick={handleClick}>
-                        Choose file
-                    </ButtonStyled>
-                    <InputStyled
-                        onChange={event => handleChangeInput(event)}
-                        ref={hiddenFileInput}
-                        style={{display: 'none'}}
-                        type="file"
-                        name="file"
-                    />
-                    <p>{ uploadedFileName }</p>
-                    <ReactAudioPlayer
-                        src={uploadedFileName ? file : ''}
-                        controls
-                    />
-                    <InputStyled type="submit" name='Upload' value='Upload'/>
-                    <ResultStyled>Emotion is { formResult ? JSON.stringify(formResult) : '...'}</ResultStyled>
-                </FormStyled>
+                <FormContainer>
+                    <FormStyled onSubmit={(e) => handleForm(e)} method="POST"
+                                encType="multipart/form-data">
+                        <ButtonStyled onClick={handleClick}>
+                            Choose file
+                        </ButtonStyled>
+                        <InputStyled
+                            onChange={event => handleChangeInput(event)}
+                            ref={hiddenFileInput}
+                            style={{display: 'none'}}
+                            type="file"
+                            name="file"
+                        />
+                        <p>{ uploadedFileName }</p>
+                        <ReactAudioPlayer
+                            src={uploadedFileName ? file : ''}
+                            controls
+                        />
+                        <InputStyled type="submit" name='Upload' value='Upload'/>
+                        <ResultStyled>Emotion is { formResult ? JSON.stringify(formResult) : '...'}</ResultStyled>
+                    </FormStyled>
+                </FormContainer>
             </VariantsBlock>
         </SpeechRecognitionBlock>
     )

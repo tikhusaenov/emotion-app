@@ -91,7 +91,7 @@ export const FooterLinkItems = styled.div`
   text-align: left;
   box-sizing: border-box;
   color: #fff;
-  border-right: 1px solid #2d3748;
+  border-right: 2px solid #fff;
   @media screen and (max-width: 1000px) {
     align-items: center;
   }
@@ -134,7 +134,7 @@ export const FooterRights = styled.div`
   width: 100%;
   font-size: 0.8rem;
   text-align: center;
-  border-top: 1px solid #2d3748;
+  border-top: 2px solid #fff;
   padding: 1rem 0;
   margin: 1rem 0 0;
 `

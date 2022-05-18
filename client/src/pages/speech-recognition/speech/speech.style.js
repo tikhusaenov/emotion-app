@@ -48,8 +48,12 @@ export const NoteStyled = styled.div`
     font-weight: lighter;
 `
 
+export const TransPlaceHolder = styled.p`
+    opacity: 0.3;
+`
+
 export const ChoiceHeading = styled.h1`
-  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+  -webkit-text-fill-color: transparent; /* Will oveу rride color (regardless of order) */
   -webkit-text-stroke-width: 2px;
   opacity: 0.4;
   -webkit-text-stroke-color: grey;
@@ -112,6 +116,10 @@ export const SpeechRecognizerStyled = styled.div`
 export const FontAwesomeIconStyled = styled(FontAwesomeIcon)`
 `
 
+export const FormContainer = styled.div`
+    width: 770px;
+`
+
 export const FormStyled = styled.form`
     background: white;
     border: 1px solid #dedede;
@@ -120,7 +128,7 @@ export const FormStyled = styled.form`
     align-items: center;
     justify-content: space-around;
     margin: 0 auto;
-    max-width: 500px;
+    //max-width: 500px;
     padding: 30px 50px;
     height: 400px;
     width: 500px;
@@ -152,4 +160,13 @@ export const ResultStyled = styled.div`
     font-size: 20px;
     margin-top: 20px;
     text-align: center;
+`
+
+export const TextAndVoiceBlock = styled.div`
+    display: flex;
+    justify-content: space-between;
+`
+
+export const TagStyled = styled.span`
+    font-weight: bold;
 `

@@ -26,7 +26,7 @@ const Footer = () => {
                         </FooterLinkItems>
                     ))}
                 </FooterGrid>
-                <FooterRights>Delta © 2021</FooterRights>
+                <FooterRights>emotional © 2022</FooterRights>
             </FooterWrapper>
         </Section>
     )
