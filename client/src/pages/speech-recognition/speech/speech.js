@@ -25,7 +25,7 @@ import Sentiment from 'sentiment'
 import ReactAudioPlayer from 'react-audio-player'
 import labels from '../../../labels/labels'
 import TextAnalyzer from "./text-analyzer"
-import {TextAnalyzerStyled} from "./voice-analyzer.style";
+import {TextAnalyzerStyled} from "./voice-analyzer.style"
 
 const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition
@@ -198,7 +198,7 @@ const Speech = () => {
                     <TextAndVoiceBlock>
                         <TextAnalyzer sentimentScore={sentimentScore}/>
                         <TextAnalyzerStyled>
-                            Emotion from <TagStyled>voice</TagStyled> <TagStyled>"{ result ? result : '...' }"</TagStyled>
+                            Emotion from <TagStyled>voice</TagStyled> is <TagStyled>"{ result ? result : '...' }"</TagStyled>
                         </TextAnalyzerStyled>
                     </TextAndVoiceBlock>
                 </SpeechRecognizerStyled>
